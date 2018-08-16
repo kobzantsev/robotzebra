@@ -9,8 +9,7 @@
 import UIKit
 //all robot commands can be founded in GameViewController.h
 class SwiftRobotControlCenter: RobotControlCenter {
-	//	dfkjldjs;fds;fas;
-	//	klfd;sk;fks;
+
 	func l0c() {
 		move()
 		if frontIsClear {
@@ -46,14 +45,7 @@ class SwiftRobotControlCenter: RobotControlCenter {
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
-		/*
-		fl;dkf
-		;dskfdskfd;kfsdkf
-		dskf
-		dsfkdsfksd
-		fkas
 		
-		*/
 		super.viewDidAppear(animated)
 		
 		// loop to search candy
@@ -69,11 +61,6 @@ class SwiftRobotControlCenter: RobotControlCenter {
 		}
 		turnRight()
 		turnLeft()
-		
-		
-		
-		
-		
 	}
 	
 	func turnLeft() {
@@ -86,7 +73,5 @@ class SwiftRobotControlCenter: RobotControlCenter {
 		move()
 		move()
 	}
-	
-	
 	
 }
