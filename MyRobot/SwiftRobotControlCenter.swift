@@ -39,7 +39,7 @@ class SwiftRobotControlCenter: RobotControlCenter {
 	
 	//in this function change levelName
 	override func viewDidLoad() {
-		levelName = "L3C" // level name
+		levelName = "L0C" // level name
 
 		super.viewDidLoad()
 	}
