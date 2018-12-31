@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 Ivan Vasilevich. All rights reserved.
 //
 
+#import <GLKit/GLKit.h>
 #import "GameViewController.h"
 #import "KerelView.h"
 #import "GameView.h"
-#import <GLKit/GLKit.h>
 #import "RobotState.h"
 
 @interface GameViewController () <KarelViewDelagate>
@@ -25,6 +25,8 @@
 @property (weak, nonatomic) IBOutlet GameView *gameView;
 
 @property (strong, nonatomic)NSMutableArray *beepers;
+
+@property (strong, nonatomic)NSMutableArray *beepersLabels;
 
 @property (strong, nonatomic)NSMutableArray *candyToRemove;
 
@@ -86,7 +88,8 @@
         [self.beepers addObject:newBeeper];
         
         NSLog(@"PUT CANDY");
-    } else NSLog(@"NO CANDY TO PUT");
+    }
+	else NSLog(@"NO CANDY TO PUT");
     
     [self.robotTasks addObject:newState];
 }
@@ -115,7 +118,8 @@
                             break;
                         }
                     }
-                } else if (state.candys < oldState.candys) {
+                }
+				else if (state.candys < oldState.candys) {
                     
                     Beeper *newBeeper = [self.candyToShow firstObject];
                     
@@ -127,6 +131,7 @@
                     [self.gameView bringSubviewToFront:self.karel];
                     
                 }
+				[self countAndDisplayBeepers];
             }
             
             
@@ -151,6 +156,29 @@
     
 }
 
+- (NSMutableArray *)beepersLabels {
+	if (!_beepersLabels) {
+		_beepersLabels = [[NSMutableArray alloc] init];
+	}
+	return _beepersLabels;
+}
+
+- (void)countAndDisplayBeepers {
+	NSMutableDictionary *count = [NSMutableDictionary new];
+	for (Beeper *beep in self.gameView.subviews) {
+		if ([beep isKindOfClass:[Beeper class]]) {
+			NSString *key = [NSString stringWithFormat:@"x:%0.1f\ty:%0.1f", beep.frame.origin.x, beep.frame.origin.y];
+			NSNumber *countOfBeepersAtPoint = @(1);
+			if ([count objectForKey:key] != nil) {
+				countOfBeepersAtPoint = @([[count objectForKey:key] intValue] + 1);
+			}
+			[count setObject:countOfBeepersAtPoint forKey:key];
+			beep.number = [countOfBeepersAtPoint description];
+//			NSLog(@"COUNT %@ = %@", key, beep.number);
+			[beep setNeedsDisplay];
+		}
+	}
+}
 
 - (NSMutableArray *)beepers{
     if (!_beepers) {
@@ -417,7 +445,6 @@
 
 }
 
-
 - (IBAction)turnRight {
         self.actions++;
     RobotState *newState = [[RobotState alloc] initWithState:[self.robotTasks lastObject]];
@@ -433,11 +460,6 @@
 //        [self displayCurrentPosAndDirrection];
 
 }
-
-
-
-
-
 
 - (void)displayWorldInfo {
     NSLog(@"candys in world %i", (int)[self.beepers count]);
@@ -513,8 +535,17 @@
 
 //        [self updateUserInfo];
         
-    } else NSLog(@"AHTUNG LEVEL NAME NOT SET!!!");
+    }
+	else {
+		NSLog(@"AHTUNG LEVEL NAME NOT SET!!!");
+	}
+	
+}
 
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	[self countAndDisplayBeepers];
 }
 
 

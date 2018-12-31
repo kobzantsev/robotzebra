@@ -10,6 +10,13 @@
 
 @implementation Beeper
 
+- (NSString *)number {
+	if (!_number) {
+		_number = @"";
+	}
+	return _number;
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -39,6 +46,9 @@
     [[UIColor grayColor] setFill];
     [path stroke];
     [path fill];
+	UIFont *textFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:16];
+	NSMutableAttributedString *number = [[NSMutableAttributedString alloc] initWithString: self.number  attributes:@{NSFontAttributeName : textFont}];
+	[number drawAtPoint:CGPointMake(self.bounds.size.width/2 - number.size.width/2, self.bounds.size.height/2 - number.size.height/2)];
 
 }
 

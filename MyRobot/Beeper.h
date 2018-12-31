@@ -11,6 +11,7 @@
 @interface Beeper : UIView
 
 @property (nonatomic) BOOL checked;
+@property (nonatomic) NSString *number;
 
 
 @end
